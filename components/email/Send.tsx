@@ -1,6 +1,8 @@
+import { useState } from "react";
 import {
   Box,
   Button,
+  CircularProgress,
   Divider,
   InputAdornment,
   TextField,
@@ -16,18 +18,50 @@ import SubjectIcon from "@mui/icons-material/Subject";
 import MessageIcon from "@mui/icons-material/Message";
 import SendIcon from "@mui/icons-material/Send";
 
+// Redux
+import { useAppDispatch } from "../../hooks";
+import { INotification } from "../../interfaces";
+import { newNotification, addEmail } from "../../reducers";
+
+// uuid
+import { v4 as uuid } from "uuid";
+
 interface SendInfo {
-  to: string;
+  of: string;
   subject: string;
   message: string;
 }
 
 const Send = () => {
+  const dispatch = useAppDispatch();
+
+  const handleNotification = () => {
+    const payload: INotification = {
+      id: uuid(),
+      title: "Success:",
+      message: "Mensaje enviado correctamente.",
+      severity: "success",
+    };
+    dispatch(newNotification(payload));
+  };
+
+  const [loading, setLoading] = useState(false);
+
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<SendInfo>();
+
+  const onSubmit = (data: SendInfo) => {
+    setLoading(true);
+    dispatch(addEmail(data))
+    setTimeout(() => {
+      setLoading(false);
+      handleNotification();
+    }, 2000);
+  };
 
   return (
     <Box sx={{ p: 2 }}>
@@ -35,7 +69,7 @@ const Send = () => {
         <Typography variant="h6" color="white">
           Mensaje nuevo
         </Typography>
-        <form style={{ marginTop: 20 }}>
+        <form onSubmit={handleSubmit(onSubmit)} style={{ marginTop: 20 }}>
           <Box sx={{ background: "#112233", p: 2, borderRadius: 2 }}>
             <TextField
               fullWidth
@@ -43,14 +77,14 @@ const Send = () => {
               type="email"
               placeholder="Ej: pepito@redes.com"
               label="Para"
-              autoComplete="to-email"
-              error={!!errors.to}
+              autoComplete="of-email"
+              error={!!errors.of}
               helperText={
-                !!errors.to
-                  ? errors.to.message
+                !!errors.of
+                  ? errors.of.message
                   : "Escribe la dirección de correo electrónico del destinatario"
               }
-              {...register("to", {
+              {...register("of", {
                 required: "El destinatario es requerido",
               })}
               InputProps={{
@@ -67,7 +101,7 @@ const Send = () => {
               type="text"
               placeholder="Ej: Hola"
               label="Asunto"
-              autoComplete="to-subject"
+              autoComplete="of-subject"
               error={!!errors.subject}
               helperText={
                 !!errors.subject
@@ -94,7 +128,7 @@ const Send = () => {
               type="text"
               placeholder="Ej: Hola, ¿cómo estás?"
               label="Mensaje"
-              autoComplete="to-message"
+              autoComplete="of-message"
               error={!!errors.message}
               helperText={
                 !!errors.message
@@ -113,14 +147,33 @@ const Send = () => {
               }}
             />
           </Box>
-          <Button
-            variant="contained"
-            size="medium"
-            endIcon={<SendIcon />}
-            sx={{ mt:2, width: "10%" }}
-          >
-            Enviar
-          </Button>
+          <Box sx={{ position: "relative" }}>
+            <Button
+              type="submit"
+              variant="contained"
+              size="medium"
+              endIcon={!loading && <SendIcon />}
+              sx={{
+                mt: 2,
+                width: "10%",
+                cursor: loading ? "wait" : "pointer",
+              }}
+              disabled={loading}
+            >
+              Enviar
+            </Button>
+            {loading && (
+              <CircularProgress
+                size={24}
+                sx={{
+                  position: "absolute",
+                  top: 20,
+                  left: 190,
+                  margin: "auto",
+                }}
+              />
+            )}
+          </Box>
         </form>
       </Box>
     </Box>
