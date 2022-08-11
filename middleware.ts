@@ -10,7 +10,7 @@ const middleware = async (req: NextRequest, ev: NextFetchEvent) => {
   if (req.nextUrl.pathname === "/") {
     if (token) {
       const url = req.nextUrl.clone();
-      url.pathname = "/home";
+      url.pathname = "/inbox";
       return NextResponse.redirect(url);
     }
 
@@ -20,7 +20,7 @@ const middleware = async (req: NextRequest, ev: NextFetchEvent) => {
   if (req.nextUrl.pathname.startsWith("/auth")) {
     if (token) {
       const url = req.nextUrl.clone();
-      url.pathname = "/home";
+      url.pathname = "/inbox";
       return NextResponse.redirect(url);
     }
 
@@ -30,7 +30,7 @@ const middleware = async (req: NextRequest, ev: NextFetchEvent) => {
   if (req.nextUrl.pathname === "/delete") {
     if (token) {
       const url = req.nextUrl.clone();
-      url.pathname = "/home";
+      url.pathname = "/inbox";
       return NextResponse.redirect(url);
     }
     const url = req.nextUrl.clone();
@@ -39,7 +39,7 @@ const middleware = async (req: NextRequest, ev: NextFetchEvent) => {
   }
 
   if (
-    req.nextUrl.pathname.startsWith("/home") ||
+    req.nextUrl.pathname.startsWith("/inbox") ||
     req.nextUrl.pathname.startsWith("/new") ||
     req.nextUrl.pathname.startsWith("/document") ||
     req.nextUrl.pathname.startsWith("/delete")

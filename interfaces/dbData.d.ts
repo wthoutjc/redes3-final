@@ -1,7 +1,5 @@
 export interface DBDataUsers {
-  id: string;
-  name: string;
-  email: string;
-  age: number;
-  date: number;
+  of: string;
+  subject: string;
+  message: string;
 }

@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import {
   Box,
   Button,
@@ -9,17 +9,14 @@ import {
 import { Layout, AuthLayout } from "../../components/layout";
 
 // Redux
-import { useAppSelector, useAppDispatch } from "../../hooks";
-import { incrementClicks } from "../../reducers";
+import { useAppSelector } from "../../hooks";
 
 // Icons
 import PasswordIcon from "@mui/icons-material/Password";
-import EmailIcon from "@mui/icons-material/Email";
 import PeopleAltRoundedIcon from "@mui/icons-material/PeopleAltRounded";
 
 // React Hook Form
 import { useForm } from "react-hook-form";
-import { validations } from "../../utils";
 
 // Next Auth
 import { signIn } from "next-auth/react";
@@ -30,13 +27,10 @@ interface LoginInfo {
 }
 
 const LogInPage = () => {
-  const dispatch = useAppDispatch();
-
   const { ux } = useAppSelector((state) => state);
 
   const clicksCurrent = useMemo(() => ux.clicks, [ux.clicks]);
 
-  const [clicked, setClicked] = useState(false);
   const {
     register,
     handleSubmit,
@@ -46,12 +40,6 @@ const LogInPage = () => {
   const onLoginUser = async ({ name, password }: LoginInfo) => {
     await signIn("credentials", { name, password });
   };
-
-  useEffect(() => {
-    if (clicked) {
-      dispatch(incrementClicks());
-    }
-  }, [clicked, dispatch]);
 
   return (
     <Layout title={"EmailManager - Login"}>
@@ -72,7 +60,7 @@ const LogInPage = () => {
                 <TextField
                   fullWidth
                   sx={{ marginBottom: "1em" }}
-                  type="name"
+                  type="text"
                   placeholder="Ej: pepito"
                   label="Nombre de usuario"
                   autoComplete="username"

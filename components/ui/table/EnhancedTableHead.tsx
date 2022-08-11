@@ -34,11 +34,9 @@ interface HeadCell {
 }
 
 const headCells: readonly HeadCell[] = [
-  { id: "id", numeric: true, disablePadding: false, label: "ID" },
-  { id: "name", numeric: false, disablePadding: true, label: "Name" },
-  { id: "age", numeric: true, disablePadding: false, label: "Age" },
-  { id: "email", numeric: false, disablePadding: true, label: "Email" },
-  { id: "date", numeric: true, disablePadding: false, label: "Date" },
+  { id: "of", numeric: true, disablePadding: false, label: "De" },
+  { id: "subject", numeric: false, disablePadding: true, label: "Asunto" },
+  { id: "message", numeric: true, disablePadding: false, label: "Message" },
 ];
 
 const EnhancedTableHead = (props: EnhancedTableProps) => {

@@ -141,7 +141,7 @@ const Navbar = () => {
               <DiamondIcon />
             </Icon>
           )}
-          <NextLink href={logged ? "/home" : "/"} passHref>
+          <NextLink href={logged ? "/inbox" : "/"} passHref>
             <Link
               sx={{ textDecoration: "none", color: "#fff" }}
               onClick={turnOffUxRender}

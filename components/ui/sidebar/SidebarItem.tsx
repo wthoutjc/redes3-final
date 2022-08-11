@@ -3,6 +3,7 @@ import {
   ListItemIcon,
   ListItemText,
   Tooltip,
+  Typography,
 } from "@mui/material";
 
 // Components
@@ -37,7 +38,14 @@ const SidebarItem = ({ item, open }: ItemSideBar) => {
           >
             {Icon}
           </ListItemIcon>
-          <ListItemText primary={title} sx={{ opacity: open ? 1 : 0 }} />
+          <ListItemText
+            primary={
+              <Typography variant="body2" color="text.secondary">
+                {title}
+              </Typography>
+            }
+            sx={{ opacity: open ? 1 : 0 }}
+          />
         </ListItemButton>
       </Tooltip>
     </ActiveSideBarLink>
